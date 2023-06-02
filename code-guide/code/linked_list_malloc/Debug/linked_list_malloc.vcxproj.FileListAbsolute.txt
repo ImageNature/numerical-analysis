@@ -1,0 +1,2 @@
+C:\Users\jesse\source\repos\linked_list_malloc\Debug\linked_list_malloc.exe
+C:\Users\jesse\source\repos\linked_list_malloc\Debug\linked_list_malloc.pdb

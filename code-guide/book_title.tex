@@ -1,0 +1,101 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%       TITLE PAGE
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%% Make title page
+%% The title page
+\def\maketitle{%
+%\ifusebookasbook
+\pagecolor{covercolor}%
+%\fi%
+\null%
+  \hbox{%
+  \hspace*{0.05\textwidth}%
+  \rule{3pt}{0.95\textheight}
+  \hspace*{0.10\textwidth}%
+\parbox[b]{0.90\textwidth}{%
+  \vbox{%
+%%%    \vspace{0.0\textheight}
+    {\fontsize{40pt}{55pt}\selectfont\bfseries \booktitleI \\[0.7\baselineskip] \fontsize{100pt}{120pt}\selectfont\booktitleII}\\[5cm]
+%    {\fontsize{25pt}{35pt}\selectfont\itshape \booksubtitle}\\[4\baselineskip]
+    {\fontsize{30pt}{35pt}\selectfont \bookauthor}\\[\baselineskip]
+%    {\fontsize{30pt}{35pt}\selectfont \bookauthorII}\\[\baselineskip]
+   \par%{\LARGE \bookinstitution}\par
+   \vspace{0.3\textheight}
+    {\noindent\Large \bookedition}\\[\baselineskip]
+    %\vspace{0.05\textheight}
+    }% end of vbox
+}% end of parbox
+  }% end of hbox
+\thispagestyle{empty}%
+\newpage
+\pagecolor{white}
+\ifusebookasbook
+\cleardoublepage
+{\centering
+\vfill\vspace*{5cm}
+{\fontsize{40pt}{55pt}\selectfont\bfseries\booktitle}\par
+%{\fontsize{20pt}{25pt}\selectfont\itshape \booksubtitle}\par
+\vspace*{2cm}
+\Huge\bookauthor\par
+\Large\bookinstitution\vspace*{0.5cm}\par
+%\Huge\bookauthorII\par
+%\Large\bookinstitutionII\par\vspace*{5cm}
+\Large\bookedition\par
+\vfill}
+\thispagestyle{empty}%
+\clearpage
+%%\pagestyle{empty}%
+\null%
+\fi
+}
+
+\maketitle
+
+\hspace*{0em}
+\vfill
+\textsl{你不必知道所有.}
+\vfill
+\textcopyright\the\year\ \ \bookauthor, ImageNature\\
+Versie: \bookversion\\
+Datum: \today
+
+\vspace*{.25cm}
+\ifusebookasbook\else
+\includegraphics[scale=0.5]{images/HHS_NL_grijs_FC}
+\fi
+
+\ifusebookasbook
+\vspace*{1cm}
+\begin{tabbing}
+\hspace{1.2cm}\=\kill
+ ISBN: \> 97890-6562-YYYY \\
+ NUR:  \> 173/989
+\end{tabbing}
+\fi
+
+\vspace*{1cm}
+De auteur kan niet aansprakelijk worden gesteld voor enige schade, in welke vorm dan
+ook, die voortvloeit uit informatie in dit boek. Evenmin kan de auteur aansprakelijk
+worden gesteld voor enige schade die voortvloeit uit het gebruik, het onvermogen tot
+gebruik of de resultaten van het gebruik van informatie in dit boek.
+
+\vspace*{0.5cm}
+Dit boek mag overal voor gebruikt worden, commercieel en niet-commercieel, mits de
+wijzigingen worden gedeeld en naam van de originele auteur wordt gemeld. De broncode
+van dit boek is beschikbaar op \url{https://github.com/jesseopdenbrouw/book_c}.
+
+
+\vspace*{2cm}
+\includegraphics{images/by-nc-sa_eu.pdf}
+\par
+{\small%
+\booktitle{} van \bookauthor{} is in licentie gegeven volgens
+een \href{http://creativecommons.org/licenses/by-nc-sa/3.0/nl/}{Creative Commons
+Naamsvermelding-NietCommercieel-GelijkDelen 3.0 Nederland-licentie}.
+
+Suggesties en/of opmerkingen over dit boek kunnen worden gemaild naar:
+\href{mailto:\bookemail}{\bookemail}.}

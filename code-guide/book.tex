@@ -1,0 +1,128 @@
+% !TeX encoding = UTF-8
+% !TeX TS-program = xelatex
+% !TeX root = book.tex
+% !TeX spellcheck = en_US
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%       BOOK MASTER DOCUMENT
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% A Dutch book about the C Programming Language, created for my students at
+%% The Hague University of Applied Sciences, department of
+%% Electrical Engineering.
+%%
+%% (c)2023, J. op den Brouw <J.E.J.opdenBrouw@hhs.nl>
+%% v0.5772156649015
+
+
+%% Warn me about obsolete Latex stuff
+%\RequirePackage[l2tabu, orthodox]{nag}
+
+%% Some credentials about the author
+\newcommand{\bookauthor}{姜青娥}
+\newcommand{\booktitleI}{数值分析及代码手册}
+\newcommand{\booktitleII}{Cpp etc}
+\newcommand{\booktitle}{\booktitleI{} \booktitleII}
+\newcommand{\booksubtitle}{}
+\newcommand{\bookinstitution}{克莱登大学}
+\newcommand{\bookedition}{ImageNature}
+\newcommand{\bookversion}{ver 1}
+\newcommand{\bookkeywords}{digitaal C programmeertaal}
+\newcommand{\bookemail}{imagenature@proton.me}
+%% Nice text on empty pages, or not...
+%\newcommand{\thispageintentionallyleftblank}{Deze pagina is opzettelijk leeg gelaten.}
+\newcommand{\thispageintentionallyleftblank}{}
+%% Include advanced sections, PLEASE KEEP THIS VALUE
+\newcommand{\bookuseadvanded}{\useadvancedtrue}
+%%\newcommand{\bookuseadvanded}{\useadvancedfalse}
+%% Pick one or none, placed in outer upper corner
+\newcommand{\finalconceptdraft}{}
+%% Which part to include in the book, no-op in this version
+\newcommand{\bookpartI}{\usebookpartItrue}
+\newcommand{\bookpartII}{\usebookpartIIfalse}
+\newcommand{\bookpartIII}{\usebookpartIIIfalse}
+%% Typeset as pdf-book or printable book
+\newcommand{\bookasbook}{\usebookasbookfalse}
+
+
+%% Pull in the preamble, includes the document class
+%\PassOptionsToPackage{showframe}{geometry}
+\input{book_preamble}
+\input{book_preamble_tikz}
+%\usepackage[contents=Preliminary,color=red,opacity=0.1]{background}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ahhhh... At last, the beginning of the document... %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[scheme=plain]{ctex}
+% 支持中文，[scheme=plain]表示不改变原排版风格
+\begin{document}
+\raggedbottom
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  THE FRONTMATTER - title page, preface and table of contents
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter
+
+% Pull in the title page, preface and table of contents
+\input{book_title}
+\input{book_intro}
+\cleardoublepage
+\tableofcontents
+
+\mainmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  THE MAINMATTER - the chapters, references, appendices
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Pull in the chapters
+\ifusebookpartI
+\input{book_chap01}
+%\input{book_chap02}
+%\input{book_chap03}
+%\input{book_chap04}
+%\input{book_chap05}
+%\input{book_chap06}
+%\input{book_chap07}
+%\input{book_chap08}
+%\input{book_chap09}
+%\input{book_chap10}
+%\input{book_chap11}
+\fi
+\ifusebookpartII
+\input{book_chap12}
+\fi
+%\ifusebookpartIII
+%\fi
+
+
+%%%% Pull in the references
+%\input{book_refs}
+
+%%% Pull in the appendices
+\appendix
+%\input{book_chapA}
+%\input{book_chapB}
+%\input{book_chapC}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  THE BACKMATTER - the index and the closing pages
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\backmatter
+
+% Pull in the index
+%\input{book_index.tex}
+%\bookbackmatter
+
+\end{document}

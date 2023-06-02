@@ -1,0 +1,689 @@
+\chapter{Functies}
+\label{cha:functies}
+\thispagestyle{empty}
+
+Als een programma langer wordt, dan wordt het al snel onoverzichtelijk. Sommige stukken code komen misschien meerdere keren in het programma voor, bijvoorbeeld het inlezen van een positief getal. Dit kopiëren van code zorgt ervoor dat het programma slecht onderhoudbaar wordt. Als er namelijk een wijziging in deze code moet worden doorgevoerd dan moeten ook alle kopieën worden aangepast. Ook zijn delen uit zo'n lang programma niet eenvoudig te gebruiken in een ander programma. De code is slecht herbruikbaar.
+
+We kunnen deze problemen oplossen door het gebruik van \textsl{functies}\index{functie}. Een logisch bij elkaar behorend stuk code wordt dan ergens apart (in een functie) geplaatst. Deze functie kunnen we vervolgens naar believen \textsl{aanroepen} om de code van de functie uit te voeren. Een Engelse term van de code van een functie wordt de \textsl{body}\index{body} genoemd.
+
+Een functie kan eenvoudig van aard zijn en slechts een simpel stukje programma bevatten. Maar we kunnen functies ook complexer maken door ze \textsl{argumenten}\index{argument} mee te geven. Daarmee kunnen we de functie voor hetzelfde doeleind gebruiken, maar kan het stukje programma wat meer doen. We kunnen een functie ook informatie laten teruggeven. Op die manier is het mogelijk om een functie te schrijven die gegevens meekrijgt, daar iets mee te doen en dan een resultaat teruggeeft. Een voorbeeld hiervan is een functie om de sinus van een hoek te laten berekenen.
+
+Er zijn ook functies die \textsl{zichzelf} aanroepen. Dat worden recursieve functies genoemd. De functie roept zichzelf aan met (meestal) een gewijzigd argument. Op deze manier kunnen complexe programmeerproblemen elegant worden opgelost maar we zullen zien dat het wel zijn weerslag heeft op het geheugen en de executietijd.
+
+Binnen een functie kunnen we lokale variabelen definiëren. Deze variabelen zijn alleen binnen de functie beschikbaar. De variabele wordt aangemaakt als de functie begint en wordt verwijderd als de functie wordt geëindigd. De informatie die deze variabele bevat, is dan ook niet meer beschikbaar. Willen we een variabele door meerdere functies laten gebruiken dan moeten we de variabele globaal definiëren.
+
+\vfill
+\hrule width 2in \relax
+{\footnotesize Gebaseerd op een document van Harry Broeders.}
+
+
+\section{Een eenvoudige functie}
+Als sterk versimpeld voorbeeld beschouwen we het programma dat gegeven is in listing~\ref{cod:slaregelsover1}.
+
+\booklistingfromproject[linerange={1-2,16-26,51-52},label=cod:slaregelsover1]{C}{Een programma waar op twee plaatsen drie regels overgeslagen worden}{slaregelsover}{c}{!ht}
+
+Op twee plaatsen in dit programma worden, in de uitvoer van het programma, drie regels overgeslagen.
+In plaats van deze code te dupliceren kunnen we deze code ook opnemen in een functie.
+Het is belangrijk om de functie een duidelijke naam te geven die aangeeft wat de functie doet.
+In dit geval is gekozen voor de naam \texttt{sla\_3\_regels\_over}.
+Het programma waarbij gebruikt gemaakt wordt van een functie is gegeven in listing~\ref{cod:slaregelsover2}.
+
+\booklistingfromproject[linerange={1-2,4-9,16-17,28-32,51-52},label=cod:slaregelsover2]{C}{Gebruik van de functie \texttt{sla\_3\_regels\_over}}{slaregelsover}{c}{!ht}
+
+Bovenin het programma wordt de functie \texttt{sla\_3\_regels\_over} gedefinieerd.
+Het keyword \texttt{void}\indexkeyword{void} betekent leeg.
+Het gebruik van \texttt{void} vóór de functienaam geeft aan dat deze functie niets teruggeeft.
+Verderop in dit hoofdstuk zullen we zien hoe een functie indien gewenst wel iets kan teruggeven.
+Het gebruik van \texttt{void} n\'a de functienaam, tussen de haken, geeft aan dat aan deze functie niets meegegeven kan worden bij aanroep. 
+Verderop in dit hoofdstuk zullen we zien hoe aan een functie, indien gewenst, wel iets kan worden meegeven bij aanroep.
+Vervolgens wordt deze functie in \texttt{main} tweemaal aangeroepen met de code \texttt{sla\_3\_regels\_over()}.
+De haakjes \texttt{()} achter de functienaam geven aan dat de functie aangeroepen moet worden.
+ 
+Als dit programma gestart wordt, begint de uitvoering zoals gebruikelijk bij \texttt{main}.
+Als de aanroep \texttt{sla\_3\_regels\_over()} moet worden uitgevoerd, wordt naar de code van deze functie gesprongen.
+Aan het einde van de functie wordt teruggekeerd achter de plaats waar de functie is aangeroepen en wordt de uitvoering van het programma daar voortgezet.
+Bij het aanroepen van een functie `onthoudt' de processor dus waarvandaan de functie aangeroepen wordt, zodat het programma na afloop van de functie na deze aanroep kan worden vervolgd.
+
+De functie moet `gezien' zijn voordat de functie aangeroepen kan worden.
+Vandaar dat de definitie van de functie \texttt{sla\_3\_regels\_over()} boven \texttt{main} geplaatst is.
+Het is echter niet nodig om de volledige code van de functie voor \texttt{main} te definiëren.
+Het is voldoende om alleen de eerste regel van de functie voor \texttt{main} te definiëren.
+Dit wordt dan een \textsl{functiedeclaratie}\index{functiedeclaratie} of \textsl{functie-prototype}\index{functie-prototype} genoemd.
+De volledige code van de functie moet natuurlijk nog wel worden gedefinieerd.
+Dit kan bijvoorbeeld na \texttt{main} maar kan ook in een apart bestand.
+In listing~\ref{cod:slaregelsover3} zien we hoe een functiedeclaratie kan worden gebruikt
+\footnote{Als we de functiedeclaratie vergeten, zal het programma wel compileren, al zal de compiler wel een waarschuwing geven. De compiler is in dit geval namelijk niet in staat om te controleren of de functie correct wordt aangeroepen.  Het is dus noodzakelijk om, als een functie niet boven \texttt{main} gedefinieerd is, een functiedeclaratie te gebruiken. Overigens geeft Visual Studio standaard een foutmelding.}.
+
+\booklistingfromproject[linerange={1-3,16-17,28-32,51-53,55-60},label=cod:slaregelsover3]{C}{Een programma waarin een functiedeclaratie gebruikt is}{slaregelsover}{c}{!ht}
+
+
+\section{Functies met parameters} 
+Als een nog steeds sterk versimpeld voorbeeld beschouwen we nu het programma dat gegeven is in listing~\ref{cod:slaregelsover4}
+
+\booklistingfromproject[linerange={1-2,16-17,34-43,51-52},label=cod:slaregelsover4]{C}{Een programma waar op twee plaatsen een aantal regels overgeslagen wordt}{slaregelsover}{c}{!ht}
+
+Op twee plaatsen in dit programma worden, in de uitvoer van het programma, regels overgeslagen.
+De eerste keer worden drie regels overgeslagen en de tweede keer worden vier regels overgeslagen.
+We kunnen nu een functie definiëren om drie regels over te slaan en nog een andere functie om vier regels over te slaan.
+Maar het zou natuurlijk veel handiger zijn als we een functie zouden kunnen definiëren waarmee we een variabel aantal regels kunnen overslaan.
+Dit is mogelijk door een functie met een zogenoemde \textsl{parameter}\index{parameter} te definiëren.
+Bij aanroep van de functie moet dan een zogenoemd \textsl{argument}\index{argument} worden meegegeven.
+De waarde van het argument wordt dan bij aanroep van de functie naar de parameter gekopieerd.
+
+%\footnote{In andere talen, met name Pascal, wordt een parameter van een functie een \textsl{formele parameter} genoemd. Het argument wordt in Pascal een \textsl{actuele parameters} genoemd. Met de komst van C zijn deze benamingen grotendeels verdwenen.}.
+
+In listing~\ref{cod:slaregelsover5} zien we hoe de functie \texttt{sla\_regel\_over} is gedefinieerd.
+De functie heeft een parameter van het type \texttt{int}.
+Bij de eerste aanroep van de functie wordt het argument~\texttt{3} meegegeven.
+Deze waarde wordt bij aanroep \textsl{gekopieerd} naar de parameter \texttt{aantal}.
+Een parameter is in feite niets anders dan een variabele die bij het aanroepen van de functie geïnitialiseerd wordt met de waarde van het bij aanroep meegegeven argument.
+De code van de functie wordt vervolgens uitgevoerd.
+Doordat de parameter \texttt{aantal} is geïnitialiseerd met de waarde \texttt{3} wordt de code in het \texttt{for}-statement drie maal herhaald en daardoor worden in de uitvoer drie regels overgeslagen.
+De parameter \texttt{aantal} is alleen in de functie \texttt{sla\_regels\_over} te gebruiken.
+Buiten de functie is de parameter onbekend.  
+Bij de tweede aanroep van de functie wordt het argument \texttt{4} meegegeven.
+Ook deze waarde wordt bij aanroep gekopieerd naar de parameter \texttt{aantal}.
+De code van de functie wordt vervolgens weer uitgevoerd.
+Doordat de parameter \texttt{aantal} nu is geïnitialiseerd met de waarde \texttt{4} wordt de code in het \texttt{for}-statement vier maal herhaald en daardoor worden in de uitvoer vier regels overgeslagen.
+
+\booklistingfromproject[linerange={1-2,10-17,45-49,51-52},label=cod:slaregelsover5]{C}{Een programma waar op twee plaatsen een aantal regels wordt overgeslagen}{slaregelsover}{c}{!ht}
+
+Een functie kan meerdere parameters hebben. 
+De verschillende parameters worden van elkaar gescheiden door een komma.
+Elke parameter heeft zijn eigen typeaanduiding.
+Bij aanroep moet het aantal argumenten overeenkomen met het aantal parameters, en de datatypes moeten overeenkomen óf kunnen worden geconverteerd.
+De waarde van het eerste argument wordt gekopieerd naar de eerste parameter en de waarde van het tweede argument wordt gekopieerd naar de tweede parameter enzovoort.
+
+In listing~\ref{cod:print_rechthoek} is een voorbeeld gegeven van een functie met twee parameters.
+De functie \texttt{print\_rechthoek} drukt een rechthoek af met een bepaalde breedte en hoogte.
+De uitvoer van het in~\ref{cod:print_rechthoek} gegeven programma is te zien in de figuur~\ref{fig:print_rechthoek}.
+
+
+\begin{dosbox}[title=Uitvoer van het programma in listing~\ref{cod:print_rechthoek}.,label=fig:print_rechthoek]
+++++++++++++++++++++
++                  +
++                  +
++                  +
++                  +
+++++++++++++++++++++
+\end{dosbox}
+
+\booklistingfromproject[]{C}{Een voorbeeld van een functie met twee parameters}{print_rechthoek}{c}{!ht}
+
+De functie is bedoeld voor het tekenen van een rechthoek met een breedte groter dan 2 en kleiner dan 80 en een hoogte van groter dan 2 en kleiner dan 40. 
+De standaardfunctie \lstc{assert}\indextwo{assert}{functie} wordt gebruikt om te controleren of de meegegeven argumenten aan deze voorwaarden voldoen.
+Als de expressie die in de \lstc{assert} wordt gebruikt \texttt{false} oplevert, dan wordt het programma afgebroken en wordt een foutmelding gegeven.
+
+Merk op dat de functie \texttt{print\_rechthoek} gebruik maakt van de functie \texttt{print\_lijn} om de boven- en onderkant van de rechthoek te printen.
+De uitvoering van het programma start in \texttt{main}.
+Vervolgens wordt de functie \texttt{print\_rechthoek} aangeroepen.
+De terugkeerlocatie wordt `onthouden' door de processor door het ergens in het geheugen op te slaan.
+Vervolgens wordt vanuit de functie \texttt{print\_rechthoek} de functie \texttt{print\_lijn} aangeroepen. 
+Ook deze terugkeerlocatie wordt opgeslagen door de processor.
+
+Na afloop van de functie \texttt{print\_lijn} wordt het programma vervolgd op de terugkeerlocatie die als laatste is opgeslagen.
+Vervolgens wordt de \texttt{for}-instructie in \texttt{print\_rechthoek} uitgevoerd en daarna wordt \texttt{print\_lijn} nogmaals aangeroepen.
+Ook deze terugkeerlocatie wordt weer opgeslagen door de processor.
+Na afloop van de functie \texttt{print\_lijn} wordt het programma vervolgd op de terugkeerlocatie die zojuist is opgeslagen.
+Na afloop van de functie \texttt{print\_rechthoek} wordt het programma vervolgd op de als eerste opgeslagen terugkeerlocatie.
+De volgorde waarin terugkeerlocaties worden opgeslagen en weer worden opgeroepen wordt \textsl{LIFO}\index{lifo} (Last In First Out)\index{Last In First Out} genoemd.
+Hoe dat opslaan van die terugkeeradressen wordt gerealiseerd is te zien in het kader onderaan de pagina.
+
+\begin{infobox}[Stapelen maar...]
+De processor heeft een hardware-mechanisme om terugkeeradressen op te slaan, de zogenoemde \textsl{stack}\index{stack}. De stack is te vergelijken met een stapeltje A4'tjes. We kunnen er een vel opleggen of afhalen. De volgorde ligt vast; het laatste vel dat erop gelegd wordt, wordt ook weer als eerste eraf gehaald. De stack wordt gerealiseerd met een stukje RAM en de \textsl{stack pointer}\index{stack pointer}. Dit is een speciaal aangewezen register\index{register} in de processor. De bovenkant van de stack wordt aangewezen door de stack pointer. Elke keer als een functie wordt aangeroepen, wordt het terugkeeradres op de stack geplaatst en de stack pointer aangepast. Elke keer dat de functie geëindigd is, wordt het terugkeeradres van de stack gehaald en op dat adres gaat het programma daar verder. Uiteraard wordt de stack pointer ook dan aangepast.
+In figuur~\ref{fig:stack} is de stack getekend op het moment dat processor bezig is met het uitvoeren van de functie \texttt{print\_lijn}.
+%Overigens hebben we hier te maken met een predecrement stack. Eerst wordt de stack pointer verlaagd en dan wordt de waarde op de stack geplaatst.
+
+\centering%
+\begin{tikzpicture}[scale=.8]
+	\tikzset{>=latex}
+	\tikzstyle{freecell}=[fill=infoboxbg,draw=black]
+	\draw[freecell] (0, 0)
+	+(-5.0,.5) -- +(-5.0,-.5) -- +(5.0,-.5) -- +(5.0,.5);
+	\draw (0, 0) node{...};
+	\draw[freecell] (0,-1) +(-5.0,-.5) rectangle +(5.0,+.5);
+	\draw (0,-1) node {Terugkeeradres in \texttt{print\_rechthoek}};
+	\draw[<-,line width=1pt] (0,-1) +(5.0,0) -- +(6.0,0);
+	\draw (6.0,-1) node[anchor=west] {Stack Pointer};
+	\draw[freecell] (0,-2) +(-5.0,-.5) rectangle +(5.0,+.5);
+	\draw (0,-2) node {Terugkeeradres in \texttt{main}};
+\end{tikzpicture}
+\captionof{figure}{De stack op het moment dat de functie \texttt{print\_lijn} wordt uitgevoerd.}
+\label{fig:stack}
+\end{infobox}
+
+
+\section{Functies met een returnwaarde}
+Tot nu toe hebben we functies geschreven die iets afdrukken met behulp van \texttt{printf}.
+Als we kijken naar de standaard C-functie \texttt{sin} dan zien we dat deze functie niets afdrukt maar de sinus van het argument teruggeeft.
+Een goed ontworpen functie moet in meerdere programma’s gebruikt kunnen worden.
+Functies die het berekende resultaat meteen afdrukken zijn eigenlijk helemaal niet handig om te gebruiken in verschillende programma’s.
+Stel eens voor dat de functie \texttt{sin} de sinus van het argument meteen zou afdrukken in plaats van het resultaat terug te geven.
+Deze functie zou dan slechts in een beperkt aantal gevallen te gebruiken zijn.
+De versie die het resultaat teruggeeft is in veel meer gevallen te gebruiken. 
+Soms zal de waarde van de sinus afgedrukt moeten worden, door de returnwaarde van de
+\texttt{sin}-functie als argument door te geven aan de \texttt{printf}-functie:
+
+\hspace*{1em}\texttt{printf("\%f", sin(hoek)); \ \ /* sin(hoek) is printed */}
+
+Maar meestal zal de waarde van de sinus gebruikt worden in een berekening:
+
+\hspace*{1em}\texttt{overstaande\_rechthoekszijde = sin(hoek) * schuine\_zijde;}
+
+De definitie van een C-functie die een waarde teruggeeft begint niet met \texttt{void} maar met het type van de waarde die wordt teruggegeven.
+Dit wordt het \textsl{returntype}\index{returntype} van de functie genoemd.
+Vanuit de functie kan een waarde van het returntype worden teruggegeven met behulp van het \texttt{return}-statement\indexkeyword{return}. Er kan slechts één waarde worden teruggegeven via het \texttt{return}-statement.
+
+In listing~\ref{cod:gemiddelde1} is een voorbeeld gegeven van een functie die een waarde van het type \texttt{double} teruggeeft.
+Deze functie berekent het gemiddelde van drie als argumenten meegegeven gehele getallen.
+  
+\booklisting[]{C}{Een eenvoudig voorbeeld van een functie met een returntype}{gemiddelde1}{c}{!ht}
+
+De definitie van de functie \texttt{gemiddelde} begint met de typeaanduiding \texttt{double} waarmee aangegeven wordt dat deze functie een waarde van het type \texttt{double} teruggeeft.
+In de functie wordt een \texttt{return}-statement gebruikt.
+De waarde van de expressie achter \texttt{return} wordt gekopieerd naar de plaats waar de functie wordt aangeroepen.
+De aanroep van de functie wordt als het ware vervangen door de returnwaarde.
+In \texttt{main} wordt de waarde die wordt teruggegeven door de functie \texttt{gemiddelde} opgeslagen in de variabele \texttt{gem} en vervolgens afgedrukt met behulp van \texttt{printf}.
+
+Er is in het voorbeeld dat is weergegeven in listing~\ref{cod:gemiddelde1} gebruik gemaakt van de variabelen \mbox{\texttt{resultaat}} en \texttt{gem}, maar beide variabelen zijn in feite niet nodig.
+In listing~\ref{cod:gemiddelde2} is een compactere versie van dit voorbeeld weergegeven.
+
+\booklisting[]{C}{Een compactere versie van het programma uit listing~\ref{cod:gemiddelde1}}{gemiddelde2}{c}{!ht}
+
+Een functie kan meerdere \texttt{return}-statements bevatten. 
+Zodra een \texttt{return}-statement wordt uitgevoerd, wordt de functie beëindigd.
+Als eenvoudig voorbeeld is in listing~\ref{cod:max1} een functie gegeven die de maximale waarde van twee, als argumenten meegegeven, gehele getallen teruggeeft.
+Merk op dat we deze functie ook kunnen gebruiken om de maximale waarde van drie getallen te bepalen door de returnwaarde van de ene aanroep te gebruiken als argument van de volgende aanroep. 
+
+\booklisting[]{C}{Een programma dat drie gehele getallen inleest en de maximale waarde afdrukt}{max1}{c}{!ht}
+
+Dat werkt als volgt. In regel 15 worden drie gehele getallen ingelezen. Daarna wordt het maximum van deze drie getallen afgedrukt. Als argument voor \texttt{printf} wordt, naast de format string, een aanroep naar de functie \texttt{max} gerealiseerd. Dat argument is
+
+\hspace*{1em}\texttt{max(i1, max(i2, i3))}
+
+en berekent eerst het maximum van \texttt{i2} en \texttt{i3} en de returnwaarde daarvan wordt samen met \texttt{i1} nog een keer in een aanroep naar \texttt{max} gebruikt. Het voordeel hiervan is dat er geen extra variabelen hoeven te worden gedefinieerd.
+
+Omdat de functie meteen wordt beëindigd als \texttt{return} wordt uitgevoerd, is de \texttt{else} in de functie \texttt{max} overbodig. Zie listing~\ref{cod:max2} voor een compactere versie van deze functie.
+
+\booklisting[linerange={3-10}]{c}{Een compactere versie van de functie \texttt{max}}{max2}{c}{!ht}
+
+Tot nu toe waren de functies die we als voorbeeld hebben bekeken nog niet zo heel goed bruikbaar in de praktijk.
+Daarom sluiten we deze paragraaf af met een functie die we wel degelijk in de praktijk zouden kunnen toepassen.
+In listing~\ref{cod:leesgeheelgetal} is \texttt{lees\_geheel\_getal} (een functie) gegeven die een geheel getal inleest, controleert of de ingevoerde waarde een getal is en of deze waarde tussen een als argumenten meegegeven minimale en maximale waarde ligt (inclusief).
+Zolang dit niet zo is, wordt een foutmelding gegeven en kan de gebruiker het opnieuw proberen,
+
+\booklistingfromproject[]{C}{Een functie om een geheel getal in te lezen}{leesgeheelgetal}{c}{!ht}
+
+We hebben hier gebruik gemaakt van de returnwaarde van \texttt{scanf}. In regel 10 wordt \texttt{scanf} aangeroepen om een integer in te lezen en in variabele \texttt{getal} te zetten. De returnwaarde van \texttt{scanf} wordt in variabele \texttt{ret} gezet. Als deze waarde 1 is, dan is het gelukt om een integer in te lezen. Zo niet, dan is het  \texttt{scanf} niet gelukt om een integer in te lezen. In het \texttt{while}-statement in regel 12 kijken we of het inlezen \textsl{niet} gelukt is (\texttt{ret != 1}). Als dat waar is, dan wordt het \texttt{while}-statement uitgevoerd. Zo niet, dan kijken we nog of het getal buiten de grenzen ligt (\texttt{getal < min || getal > max}). Ook dan wordt het \texttt{while}-statement uitgevoerd.
+
+In het \texttt{while}-statement wordt met behulp van een \texttt{do while}-statement een voor een karakters ingelezen totdat een newline\index{newline} gevonden is. Dan is de invoerbuffer van het toetsenbord leeg en kan opnieuw om een getal gevraagd worden. Zie voor meer over \texttt{scanf} en inlezen van het toetsenbord paragraaf~\ref{sec:scanf}.
+
+De uitvoer van het in listing~\ref{cod:leesgeheelgetal} gegeven programma is te zien in figuur~\ref{fig:lees_geheel_getal}.
+De door de gebruiker ingetypte invoer is vet weergegeven. 
+
+\begin{dosbox}[title={Invoer en uitvoer van het programma.},label=fig:lees_geheel_getal]
+Geef een geheel getal [1..10]: (*\textbf{0}*)
+Onjuiste invoer. Probeer het opnieuw!
+Geef een geheel getal [1..10]: (*\textbf{11}*)
+Onjuiste invoer. Probeer het opnieuw!
+Geef een geheel getal [1..10]: (*\textbf{zeven}*)
+Onjuiste invoer. Probeer het opnieuw!
+Geef een geheel getal [1..10]: (*\textbf{7}*)
+Het ingelezen toetscijfer is 7.
+\end{dosbox}
+
+%%%Bij het gebruik van normale parameters wordt de \emph{waarde} van elk argument gekopieerd naar de overeenkomstige parameter. Deze parameters worden ook wel \emph{call by value} parameters genoemd.
+%%%Call by reference parameters kunnen in C ge\"{i}mplementeerd worden door pointers, zie \cref{sec:pointers}, te gebruiken.
+%%%Beschouw het programma dat gegeven is in \cref{lst:foute_wissel}.
+%%%Het is de bedoeling dat de waarden van de variabelen x en y verwisseld zijn na aanroep van de functie |wissel(x, y)|.
+%%%Zo'n functie die twee getallen verwisseld kan bijvoorbeeld handig zijn bij het sorteren van getallen.
+%%%De uitvoer van dit programma is gegeven in \cref{fig:foute_wissel}.
+%%%
+%%%Zoals je ziet zijn de waarden van de variabelen x en y \emph{niet} verwisseld na aanroep van de functie |wissel(x, y)|.
+%%%Dit hadden we natuurlijk kunnen zien aankomen.
+%%%Bij aanroep van de functie |wissel| wordt de waarde van de als argument meegegeven variabele |x| gekopieerd naar de parameter |a| en wordt de waarde van de als argument meegegeven variabele |y| gekopieerd naar de parameter |b|.
+%%%Vervolgens worden de waarden van |a| en |b| keurig verwisseld in de functie |wissel|, maar bij terugkeer in |main| hebben |x| en |y| nog steeds hun oorspronkelijke waarden.
+%%%De standaard parameteroverdacht in C is namelijk call by value.
+%%%Bij aanroep wordt de waarde van elk argument gekopieerd naar de bijbehorende parameter.    
+%%%
+%%%\floatlstinput[style=cstyle]{foute_wissel.c}{foute_wissel}{Een \emph{niet werkende} functie om  twee getallen te verwisselen, zie \proglink{foute_wissel.c}.}
+%%%
+
+
+\section{Zichtbaarheid en levensduur van lokale variabelen}
+Variabelen die binnen een functie gedefinieerd zijn, zijn alleen zichtbaar in de functie. We noemen dat lokale variabelen\index{lokale variabele}\index{variabele!lokaal}. Ze worden aangemaakt als de functie begint en worden verwijderd als de functie terugkeert naar de aanroeper. Dat betekent dat de levensduur loopt van het begin van de executie van een functie tot de terugkeer naar de aanroeper. Lokale variabelen kunnen geïnitialiseerd worden. Elke keer als de functie aangeroepen wordt, krijgt een nieuwe versie van de variabele dan zijn waarde.
+
+Parameters van de functie gedragen zich als lokale variabelen. Er wordt een kopie gemaakt van het bijbehorende argument en die kopie is zichtbaar in de functie. Parameters mogen daarom ook in een functie aangepast worden; de originele variabelen (via de parameters) worden dus niet aangepast. Ook de levensduur van parameters is identiek aan die van lokale variabelen.
+
+Omdat er een kopie van een variabele aan de parameters wordt meegegeven, kan de originele variabele niet worden aangepast. Een voorbeeld waarbij dit wel gewenst is, is een functie die de inhoud van twee variabelen verwisseld. Dit komt voor in sorteerprogramma's. We definiëren een functie \texttt{wissel} met twee parameters \texttt{a} en \texttt{b}. De functie en de aanroep zijn te zien in listing~\ref{cod:foute_wissel}. In de functie wordt een lokale variabele \texttt{hulpje} aangemaakt en met behulp ervan worden \texttt{a} en \texttt{b} verwisseld. De functie \texttt{wissel} wordt met twee argumenten \texttt{x} en \texttt{y} aangeroepen. Vooraf en daarna worden \texttt{x} en \texttt{y} op het scherm afgedrukt.
+
+\booklistingfromproject[]{C}{Een functie om twee argumenten te verwisselen (foutief)}{foute_wissel}{c}{!ht}
+
+In figuur~\ref{fig:funwisselfout} is de uitvoer van het programma te zien. We merken op dat \texttt{x} en \texttt{y} niet verwisseld zijn. Dat kan ook niet, want er worden kopieën van \texttt{x} en \texttt{y} meegegeven. In functie \texttt{wissel} worden alleen de kopieën verwisseld, niet de originele variabelen.
+Toch is het mogelijk om de inhouden van \texttt{x} en \texttt{y} te verwisselen. Hoe dat moet, zien we in hoofdstuk~\ref{cha:pointers}.
+
+\begin{dosbox}[title=Uitvoer van de functie \texttt{wissel}.,label=fig:funwisselfout]
+x = 7 en y = 8
+x = 7 en y = 8
+\end{dosbox}
+
+C is een blokgestructureerde taal dat betekent dat we in een \textsl{blok}\index{blokstructuur} lokale variabelen kunnen definiëren. Dit is te zien in listing~\ref{cod:funvarbinnenblok}. Variabele \texttt{i} is alleen te gebruiken binnen het \texttt{if}-statement\footnote{De lokale variabele \texttt{i} is alleen binnen het blok te gebruiken. Als buiten het blok nóg een variabele \texttt{i} is gedefinieerd dan is die variabele buiten het blok te gebruiken.}.
+
+\begin{figure}[!ht]
+\begin{lstlisting}[caption=Variabele binnen een blok.,label=cod:funvarbinnenblok]
+    if (n > 0) {
+        int i;
+        
+        for (i = 0; i < 10; i++) {
+            // use variable i
+        }
+    }
+\end{lstlisting}
+\end{figure}
+
+Als we de lokale variabele \texttt{i} alleen maar binnen het \texttt{for}-statement nodig hebben, kunnen we ook gebruik maken van een zeer locale definitie. Dit is te zien in listing~\ref{cod:funvarbinnenblok2}. Voor en na het \texttt{for}-statement is lokale variabele \texttt{i} niet beschikbaar. De zichtbaarheid van \texttt{i} is beperkt tot het \texttt{for}-statement.
+
+%% Ughh, dirty hack to get next code snippet on the same page...
+\vspace*{-0.25em}
+\begin{figure}[!ht]
+\begin{lstlisting}[caption=Variabele binnen een blok.,label=cod:funvarbinnenblok2]
+    if (n > 0) {
+        // variable i does not exists
+        for (int i = 0; i < 10; i++) {
+            // use variable i
+        }
+        // variable i does not exists
+    }
+\end{lstlisting}
+\end{figure}
+\vspace*{-0.75em}
+
+Lokale variabelen worden aan het begin van het uitvoeren van een functie aangemaakt en aan het einde weer verwijderd. Soms is het nodig om een lokale variabele te gebruiken die niet steeds opnieuw wordt aangemaakt en verwijderd wordt, maar behouden blijft \textsl{over aanroepen heen}. Dat kan door bij de definitie van een lokale variabele de qualifier \texttt{static}\indexkeyword{static} te gebruiken. Zo'n lokale variabele wordt bij het starten van het programma geïnitialiseerd, expliciet door een constante expressie of impliciet met 0, en is beschikbaar zolang het programma draait, maar alleen binnen de functie waar de variabele gedefinieerd is.
+
+In listing~\ref{cod:static_local} is een functie te zien met een \texttt{static} lokale variabele. De variabele wordt bij het starten van het programma met 0 geïnitialiseerd (dit kunnen we ook achterwege laten).
+%Elke keer dat we de functie aanroepen wordt de variabele met 1 verhoogd en wordt het resultaat teruggegeven aan de aanroeper.
+Elke keer dat we de functie aanroepen, wordt de variabele met 1 verhoogd en wordt het resultaat teruggegeven aan de aanroeper, en wordt de variabele niet verwijderd als we terugkeren naar de aanroeper.
+
+\booklistingfromproject[]{C}{Een functie met een static variabele}{static_local}{c}{H}
+
+
+\section{Zichtbaarheid en levensduur van globale variabelen}
+Een globale variabele\index{globale variabele}\index{variabele!globaal} is beschikbaar en zichtbaar tijdens de hele executie van het programma en binnen het gehele C-programma. Alle functies kunnen deze variabele gebruiken in statements. Het wordt aangemaakt als het programma start en wordt verwijderd als het programma is afgelopen. Een globale variabele kan eenmalig worden geïnitialiseerd, of wordt automatisch op 0 gezet als de initialisatie achterwege is gebleven. Een globale variabele wordt buiten functies gedefinieerd.
+
+Lokale variabelen kunnen globale variabele verbergen. In listing~\ref{cod:funzichtglobaal} is een opzet van een C-programma te zien met een definitie van een globale variabele \texttt{i} (regel 1). In de functie \texttt{func1} wordt geen lokale variabele \texttt{i} gedefinieerd en is de globale variabele \texttt{i} zichtbaar. We kunnen in onze statements daar gebruik van maken. In functie \texttt{func2} wordt een lokale variabele \texttt{i} gedefinieerd. Deze definitie zorgt ervoor dat de globale variabele wordt verborgen. Binnen de functie wordt alleen gebruik gemaakt van de lokale variabele \texttt{i}. Er is in C geen mogelijkheid om toch de globale variabele te gebruikten (binnen deze functie natuurlijk).
+
+\begin{figure}[!ht]
+\begin{lstlisting}[caption=Zichtbaarheid van globale variabelen.,label=cod:funzichtglobaal]
+int i;
+
+void func1(int a) {
+    // global i visible
+}
+
+void func2(int a) {
+    int i;     // overrules the global i
+}
+\end{lstlisting}
+\end{figure}
+
+Als we een globale variabele alleen maar zichtbaar willen maken binnen het C-bestand waarin de variabele wordt gedefinieerd dan moeten we de variabele voorzien van de qualifier \texttt{static}\indexkeyword{static}.
+De globale variabele is dan alleen zichtbaar voor de functies binnen het C-bestand. Een C-programma kan namelijk verdeeld worden over meerdere bestanden (ook wel \textsl{translation units} genoemd). Zie hoofdstuk~\ref{cha:compilatieproces}.
+
+\begin{infobox}[Call by Value]
+De methode waarop de inhoud van een variabele wordt doorgegeven als parameters van een functie wordt \textsl{Call by Value}\index{Call by Value} genoemd. Er wordt een kopie gemaakt van de variabele en die komt via de functieaanroep in een parameter terecht. De parameter gedraagt zich als een lokale variabele en kan worden aangepast, maar de originele variabele blijft zijn waarde behouden.
+
+Er is ook nog een andere methode, Call by Reference. Deze methode wordt in hoofdstuk~\ref{cha:pointers} behandeld.
+\end{infobox}
+
+
+\section{Zichtbaarheid en levensduur van functies}
+Elke functie is in principe in het C-programma te gebruiken. Het is niet mogelijk om een functie alleen maar beschikbaar te stellen voor een andere functie. Willen we een functie alleen maar beschikbaar stellen voor het C-bestand waarin de functie is gedefinieerd, dan moeten we de functie voorzien van de qualifier \texttt{static}\indexkeyword{static}. Zie ook hoofdstuk~\ref{cha:compilatieproces}.
+
+
+\section{Recursieve functies}
+Een functie die \textsl{zichzelf} aanroept wordt een \textsl{recursieve functie}\index{recursieve functie} genoemd.
+Een veel gebruikt voorbeeld van een toepassing van een recursieve functie is het berekenen van de faculteit van een natuurlijk getal $n$.
+De faculteit van $n$ is gedefinieerd zoals gegeven is in~\eqref{eq:fac}.
+\begin{equation}
+\label{eq:fac}
+	n! = \prod_{i=1}^{n} i = 1 \cdot{} 2 \cdot{} 3 \cdot{} \cdots{} \cdot{} n
+\end{equation} 
+Dus bijvoorbeeld $4! = 1 \cdot{} 2 \cdot{} 3 \cdot 4 = 24$.
+Verder is afgesproken: $0! = 1$.
+Deze wiskundige functie is ook recursief te definiëren\footnote{%
+	In een recursieve definitie wordt hetgeen gedefinieerd wordt in de definitie zelf gebruikt.
+}, zie~\eqref{eq:fac_rec}.
+\begin{equation}
+\label{eq:fac_rec}
+	n! =
+	\begin{cases}
+		1, & \text{als $n \leq 1$}\\
+		n \cdot{} (n - 1)!, & \text{als $n > 1$}
+	\end{cases}
+\end{equation} 
+Dus $4!$ kan ook als volgt berekend worden: $4! = 4 \cdot{} 3! = 4 \cdot{} 3 \cdot{} 2! = 4 \cdot{} 3 \cdot{} 2 \cdot 1! = 4 \cdot{} 3 \cdot{} 2 \cdot 1 = 24.$
+
+Als we deze recursieve definitie coderen in C dan krijgen we een functie zoals te zien is in listing~\ref{cod:faculteit_recursief}. Dit programma drukt de faculteiten af van $0$ t/m $20$.
+
+\booklistingfromproject[]{C}{Een recursieve functie om de faculteit van een natuurlijk getal te berekenen}{faculteit_recursief}{c}{!ht}
+
+Omdat de faculteit gedefinieerd is voor natuurlijke getallen (gehele getallen groter dan of gelijk aan nul) is als qualifier\index{qualifier} van de parameter \texttt{unsigned} gekozen (een geheel getal zonder teken). Daarnaast wordt de faculteit van grotere getallen al snel erg groot. Daarom is voor de qualifier \texttt{long long} gekozen. Op de meeste computers is dit een 64-bits getal. Het lukt dan nog net om $20!$ uit te rekenen. Bij grotere getallen treedt \textsl{overflow}\index{overflow} op; het getal is te groot om in 64 bits op te slaan.
+
+We zouden ook kunnen kiezen voor een \texttt{double}. Daar kunnen weliswaar grotere getallen in worden opgeslagen, maar de nauwkeurigheid is eindig, ongeveer 16 significante cijfers.
+Zo is de exacte waarde van $23! = 25852016738884976640000$ maar gebruik maken van een \texttt{double} geeft als resultaat $25852016738884978212864$. We zien dat de eerste 16 cijfers correct zijn, de laatste 7 cijfers zijn echter niet juist. Bij het gebruik van een \texttt{double} krijgen we dus slechts een benadering van $n!$ voor grotere waarden van $n$.  
+
+Een recursieve aanpak is vooral handig als er nog code wordt uitgevoerd \emph{na} de recursieve aanroep.
+Stel dat we een natuurlijk getal willen afdrukken in het tientallig talstelsel zonder gebruik te maken van \texttt{printf}, dan kunnen we gebruik maken van het recursieve algoritme dat gegeven is in figuur~\ref{fig:funprintdec}.
+
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}
+\node [startstop] (start) {Start printdec};
+\node (dec1) [decision, below =of start] {getal\,$>$\,9};
+\node (pro1) [process, below =of dec1] {printdec (getal/10)};
+\node [ghostnode] (join) [below =of pro1] {};
+\node (io1) [io, below =of join] {print getal\,\%\,10};
+\node [startstop] (stop2) [below =of io1] {end};
+
+\draw [arrow] (start) -- (dec1);
+\draw [arrow] (dec1) -- node[anchor=east] {yes} (pro1);
+\draw [arrow,-] (pro1) -- (io1) coordinate[midway] (entrypoint1);
+\draw [arrow] (dec1.east) -- node[anchor=south] {no} ++(1.6,0) |- (entrypoint1);
+\draw [arrow] (io1) -- (stop2);
+\end{tikzpicture}
+\caption{Flowchart van de recursieve functie \texttt{printdec}.}
+\label{fig:funprintdec}
+\end{figure}
+
+Als we de functie binnenkomen, dan controleren we eerst of het meegegeven argument groter is dan 9. Zo ja, dan delen we het getal door 10 (daarmee `verdwijnt' de eenheid) en geven dit als argument mee aan weer een aanroep van \texttt{printdec}. Als het argument kleiner is dan 10, dan hebben we het meest significante cijfer gevonden en drukken dat af en keren terug naar de vorige aanroep. In de vorige aanroep drukken we de eenheid van het argument af met behulp van de modulus-operator.
+
+Laten we eens het getal 3961 afdrukken. We roepen \texttt{printdec} aan met argument 3961. Dit argument is groter dan 9, dus wordt \texttt{printdec} weer aangeroepen maar nu met 396. Ook dat is groter dan 9 en zo wordt \texttt{prindec} weer aangeroepen met 39, enzovoorts. Uiteindelijk wordt het argument 3 aan \texttt{printdec} meegegeven en dat is kleiner dan 10, dus wordt dat argument afgedrukt. De functie wordt beëindigd en keert terug naar de vorige aanroep en daar was het argument 39. Met behulp van de modulus operator\indextwo{\%}{modulus operator} wordt alleen de 9 afgedrukt. Ook deze aanroep keert terug. Daar was het argument 396. De 6 wordt afgedrukt en de functie keert terug. We zijn nu teruggekeerd bij de eerste aanroep van \texttt{printdec} en daar was het argument 3961. Nu wordt de 1 afgedrukt en keert de functie terug naar \texttt{main}. Het programma voor de recursieve functie is te vinden in listing~\ref{cod:printdec_recursive}.
+
+\booklistingfromproject[]{C}{Een recursieve functie om een natuurlijk getal af te drukken}{printdec_recursive}{c}{!ht}
+
+We maken in dit geval slim gebruik van het feit dat functies die achtereenvolgens aangeroepen worden in de omgekeerde volgorde terugkeren (Last In First Out, zie kader op pagina~\pageref{fig:stack}).
+Merk op dat ook het argument voorafgaande aan de functieaanroep op de stack wordt gezet. Dat is nodig omdat het argument steeds verandert.
+Nadat de functie voor de vierde keer is aangeroepen ziet de stack eruit zoals te zien is in figuur~\ref{fig:stacktientallig}.
+
+\begin{figure}[!ht]
+	\centering%
+	\begin{tikzpicture}[scale=.8]
+	\tikzset{>=stealth}
+	\tikzstyle{freecell}=[fill=infoboxbg,draw=black]
+	\draw[freecell] (0, 0) +(-5,.5) -- +(-5,-.5) -- +(5,-.5) -- +(5,.5);
+	\draw (0, 0) node{...};
+	\draw[freecell] (0,-1) +(-5,-.5) rectangle +(5,+.5);
+	\draw (0,-1) node {Terugkeerlocatie in \texttt{printdec}};
+	\draw[<-,line width=1pt] (0,-1) +(5,0) -- +(6,0);
+	\draw (6,-1) node[anchor=west] {Stack Pointer};
+	\draw[freecell] (0,-2) +(-5,-.5) rectangle +(5,+.5);
+	\draw (0,-2) node {\texttt{getal = 3}};
+	\draw[freecell] (0,-3) +(-5,-.5) rectangle +(5,+.5);
+	\draw (0,-3) node {Terugkeerlocatie in \texttt{printdec}};
+	\draw[freecell] (0,-4) +(-5,-.5) rectangle +(5,+.5);
+	\draw (0,-4) node {\texttt{getal = 39}};
+	\draw[freecell] (0,-5) +(-5,-.5) rectangle +(5,+.5);
+	\draw (0,-5) node {Terugkeerlocatie in \texttt{printdec}};
+	\draw[freecell] (0,-6) +(-5,-.5) rectangle +(5,+.5);
+	\draw (0,-6) node {\texttt{getal = 396}};
+	\draw[freecell] (0,-7) +(-5,-.5) rectangle +(5,+.5);
+	\draw (0,-7) node {Terugkeerlocatie in \texttt{main}};
+	\draw[freecell] (0,-8) +(-5,-.5) rectangle +(5,+.5);
+	\draw (0,-8) node {\texttt{getal = 3961}};
+	\end{tikzpicture}
+	\caption{De stack op het moment dat de functie \texttt{printdec} viermaal is aangeroepen.}
+	\label{fig:stacktientallig}
+\end{figure}
+
+\advanced
+\section{Complexiteit van recursieve functies}
+Recursieve functies zijn vaak eenvoudig van aard. We spreken dan van een lage complexiteit. Maar we kunnen ook op andere manieren naar de recursieve functies kijken. Twee belangrijke eigenschappen van recursieve functies zijn de \textsl{Call Complexity} (het aantal aanroepen van de functie dat nodig is om een getal te berekenen) en de \textsl{Time Complexity} (hoe lang duurt het om een getal te berekenen).
+
+Een bekend voorbeeld waar veel over geschreven is, is de reeks van Fibonacci. De reeks heeft de recursieve definitie voor een natuurlijk getal $n$:
+%
+\begin{equation}
+\label{eq:fib_rec}
+	F(n) =
+	\begin{cases}
+%        0, & \text{als $n = 0$}\\
+%		1, & \text{als $n = 1$}\\
+		n, & \text{als $n \leq 1$}\\
+		F(n-1)+F(n-2), & \text{als $n > 1$}
+	\end{cases}
+\end{equation}
+%
+Dus een Fibonacci-getal $F(n)$ is uit te rekenen door de som te nemen van de twee eerdere Fibonacci-getallen met beginwaarden $F(0) = 0$ en $F(1) = 1$. Rekenen we een aantal Fibonacci-getallen uit dan komen we tot de reeks:
+%
+\begin{equation}
+F(0)=0,\, F(1) = 1,\, F(2)=1,\, F(3)=2,\, F(4) =3,\, F(5)=5,\, F(6)=8,\, F(7)=13
+\end{equation}
+
+Een recursieve functie hiervoor is vrij eenvoudig. Dit is te zien in listing~\ref{cod:fibsimple}.
+
+\begin{figure}[!ht]
+\begin{lstlisting}[caption=Recursieve functie voor berekenen van Fibonacci-getallen.,label=cod:fibsimple]
+int fib(int n) {
+
+    if (n <= 1) {
+        return n;
+    }
+    return fib(n - 1) + fib(n - 2);
+}
+\end{lstlisting}
+\end{figure}
+
+Stel dat we $F(10)$ willen uitrekenen, dan vinden we via de functie dat $F(10)= F(9)+F(8)$. Maar $F(9) =F(8)+F(7)$ en $F(8)=F(7)+F(6)$ enzovoorts. Het probleem zit niet zozeer in het groter worden van de getallen maar in het aantal (recursieve) \textsl{aanroepen} van de functie en in het verlengde daarvan de totale tijd die nodig is een Fibonacci-getal te berekenen.
+
+In listing~\ref{cod:fibonacci_recursive} is een programma te zien dat het aantal aanroepen van de functie en de totale tijd om een Fibonacci-getal te berekenen bijhoudt. Omdat de getallen vrij snel groot worden, hebben we gebruik gemaakt van \texttt{unsigned long long}-getallen dat bij veel computers neerkomt op 64-bits getallen.
+We houden bij elke berekening bij hoe vaak de functie is aangeroepen en maken gebruik van de \texttt{clock}-functie\indexfunc{clock} in C om de rekentijd bij te houden.
+
+\booklistingfromproject[linerange={1-10,15-39}]{C}{Programma om Fibonacci-getallen af te drukken}{fibonacci_recursive}{c}{!ht}
+
+We berekenen de getallen $F(37)$ t/m $F(43)$. De uitvoer van het programma is te zien in figuur~\ref{fig:outputfib}. We zien dat voor het berekenen van $F(37)$ 24157817 functieaanroepen nodig zijn en de rekentijd bedraagt 1,534 seconden. Voor het berekenen van $F(43)$ zijn meer dan 1,4 miljard aanroepen nodig en de rekentijd bedraagt 22,381 seconden.
+
+\begin{dosbox}[title=Uitvoer van een Fibonacci-programma.,label=fig:outputfib]
+Fib(37) = 24157817, Calls: 78176337, Time: 1.534
+Fib(38) = 39088169, Calls: 126491971, Time: 2.085
+Fib(39) = 63245986, Calls: 204668309, Time: 3.175
+Fib(40) = 102334155, Calls: 331160281, Time: 5.107
+Fib(41) = 165580141, Calls: 535828591, Time: 8.315
+Fib(42) = 267914296, Calls: 866988873, Time: 13.865
+Fib(43) = 433494437, Calls: 1402817465, Time: 22.381
+\end{dosbox}
+
+Het is aan te tonen dat het aantal aanroepen $C(n)$ voor het berekenen van $F(n)$ bedraagt:
+%
+\begin{equation}
+C(n) = 2F(n+1)-1
+\end{equation}
+%
+De ordegrootte van de tijd die een berekening kost is:
+%
+\begin{equation}
+T(n) = O(1,618^n)
+\end{equation}
+%
+Dit wordt de ``Big O-notation'' genoemd. Dit zegt ons niet zozeer hoeveel rekentijd een berekening precies kost maar wel wat de verhouding is met de rekentijd van het volgende getal. Overigens zijn er geweldig mooie relaties tussen de getallen:
+%
+\begin{equation}
+\jot=5pt
+\begin{split}
+\dfrac{F(43)}{F(42)} &= \dfrac{433494437}{267914296}\approx 1,618\\
+\dfrac{C(43)}{C(42)} &= \dfrac{1402817465}{866988873}\approx 1,618\\
+\dfrac{T(43)}{T(42)} &= \dfrac{22.381}{13.865}\approx 1,618
+\end{split}\end{equation}
+%
+Voor steeds groter wordende waarde van $n$ convergeren de verhoudingen naar de exacte waarde $\dfrac{1+\sqrt{5}}{2}$. Deze waarde wordt de \textsl{gulden snede}\index{gulden snede} genoemd\footnote{De waarde is bij benadering $1,61803398874989484820458683436563811772$.}.
+\basic
+
+
+\section{Pointers en functies als parameter}
+Een pointer is een variabele met als inhoud het \textsl{adres} van een (andere) variabele. Met behulp van pointers kunnen we dus niet een kopie van een variabele als argument meegeven, maar een adres waarop de (originele) variabele te vinden is. Ook een functie, of eigenlijk, het \textsl{beginadres} van een functie kan als argument en parameter dienen. We behandelen dit in hoofdstuk~\ref{cha:pointers}.
+
+
+\section{Functies die meer dan één waarde teruggeven}
+Met behulp van het \texttt{return}-statement kan in C vanuit een functie slechts één waarde teruggegeven worden.
+Willen we meerdere waarden teruggeven, dan kan dat op twee manieren. 
+We kunnen:
+\begin{itemize}
+	\item
+	de waarden ``inpakken'' in een \textsl{structure}, dit is vooral handig als verschillende datatypes moeten worden teruggegeven, zie hiervoor hoofdstuk~\ref{cha:structures};
+	\item
+	de waarden teruggeven via zogenoemde \emph{Call by Reference}-parameters, dit is vooral handig bij dezelfde datatypes (arrays), zie hiervoor hoofdstuk~\ref{cha:arrays}.
+\end{itemize}
+
+
+\section{Wiskundige functies}
+Hoewel C niet specifiek bedoeld is voor het berekenen van wiskundige formules, kunnen met behulp van \textsl{mathematical library} toch wiskundige berekeningen uitgevoerd worden. Een aantal veel gebruikte functies is te zien in de onderstaande lijst.
+%% Bereken de breedte van de tweede colom
+%\newdimen\delengte\delengte=\textwidth\advance\delengte by -4.6cm\advance\delengte by -2\tabcolsep
+% Bereken de breedte van de eerste kolom
+\setbox0\hbox{\texttt{atan2(x,y)}}
+\newdimen\delengteb\delengteb=\textwidth\advance\delengteb by -\wd0\advance\delengteb by -2\tabcolsep
+\begin{table}[!ht]
+\centering
+\begin{tabular}{lp{\delengteb}@{}}
+\texttt{sin(x)} & berekent de sinus van $x$ ($x$ in radialen)\\
+\texttt{cos(x)} & berekent de cosinus van $x$ ($x$ in radialen)\\
+\texttt{tan(x)} & berekent de tangens van $x$ ($x$ in radialen)\\
+\texttt{asin(x)} & berekent de arcsin $x$ in het bereik $[-\pi/2, \pi/2]$, domein is $[-1,1]$\\
+\texttt{acos(x)} & berekent de arccos $x$ in het bereik $[0, \pi]$, domein is $[-1,1]$\\
+\texttt{atan(x)} & berekent de arctan $x$ in het bereik $[-\pi/2, \pi/2]$\\
+\texttt{atan2(x,y)} & berekent de arctan $x/y$ in het bereik $\langle-\pi, \pi]$, $(x,y)\neq(0,0)$\\
+\texttt{sinh(x)} & berekent de sinus hyperbolicus van $x$\\
+\texttt{cosh(x)} & berekent de cosinus hyperbolicus van $x$\\
+\texttt{tanh(x)} & berekent de tangens hyperbolicus van $x$\\
+\texttt{exp(x)} & berekent $\mathrm{e}^x$\\
+\texttt{log(x)} & berekent $\ln x$, $x>0$\\
+\texttt{log10(x)} & berekent $^{10}\!\log x$, $x>0$\\
+\texttt{pow(x,y)} & berekent $x^y$, $x>0,\,x=0\,\wedge\,y>0,\,x<0\,\wedge\,y\in\mathbb{Z}$\\
+\texttt{sqrt(x)} & berekent $\sqrt{x}$, $x\geq0$\\
+\texttt{ceil(x)} & kleinste gehele getal niet kleiner dan $x$\\
+\texttt{floor(x)} & grootste gehele getal niet groter dan $x$\\
+\texttt{fabs(x)} & berekent $|x|$\\
+\texttt{fmod(x,y)} & berekent de floating point-rest van $x/y$, met hetzelfde teken als $x$ én $y\neq$ 0,0\\
+\end{tabular}
+\end{table}
+
+Alle argumenten en returnwaarden zijn van het type \texttt{double}. De hoeken in goniometrische functies zijn in radialen. Om de functies te gebruiken, moet header-bestand \texttt{math.h}\indextwo{math.h}{header-bestand} geladen worden. Als de parameters niet in in het bereik zijn van de functies wordt een NaN\index{nan} (not a number)\index{Not a Number|see {nan}} teruggegeven.
+
+Als voorbeeld ontwikkelen we een programma om een numerieke benadering van een Riemann-integraal te programmeren. De te integreren functie is het kwadraat van een sinus van 0 tot~$2\pi$. Dit komt onder andere voor bij het bepalen van het gemiddelde elektrisch vermogen over een tijdspanne. De algemene gedaante is:
+%
+\begin{equation}
+O = \int_{a}^{b}f(x)\,\mathrm{d}x = \lim\limits_{n\to\infty}\,\sum_{k=0}^{n-1}f\left(a+k\cdot\frac{b-a}{n}\right)\cdot\frac{b-a}{n}
+\end{equation}
+%
+waarbij geldt dat $a=0$ en $b=2\pi$. Wat we doen is het volgende. De te integreren functie wordt verdeeld in een aantal rechthoeken zoals te zien is in figuur~\ref{fig:funriemannleftrule}. De punt linksboven van de rechthoek raakt de functie. Als we nu de oppervlakten van alle rechthoeken bij elkaar optellen dan vinden we een benadering van de oppervlakte. Dit wordt de Riemann-linkersom genoemd. Als we het aantal rechthoeken steeds groter maken (waarbij de breedte van de rechthoek steeds smaller wordt), dan benaderen we de exacte waarde steeds beter.
+
+\begin{figure}[!t]
+\begin{subfigure}{0.5\textwidth}
+\centering
+\begin{tikzpicture}[font=\footnotesize,
+  declare function = { f(\x) = sin(deg(\x))^2; }
+]
+\begin{axis}[width=\textwidth, height=0.5\textwidth,
+   tick label style = {
+      /pgf/number format/use comma,
+      /pgf/number format/fixed,
+      /pgf/number format/fixed zerofill,
+      /pgf/number format/precision = 1},
+    xtick={0,pi,2*pi},
+    xticklabels={$0$,$\pi$,$2\pi$},
+    ytick={0,0.5,1.0},
+    xmax=6.5,ymax=1.1,ymin=-0.001,xmin=-0.0,
+%    enlargelimits=true,
+    axis y line=middle, axis x line=bottom,
+    clip=false,
+    domain=0:17,
+    axis on top
+    ]
+\addplot [draw=infoboxbgtitle, fill=infoboxbg, ybar interval, samples=21, domain=0:6.28] {f(x)} \closedcycle;
+\addplot[smooth, thick,domain=0:6.28,samples=40,draw=bookcolor]{f(x)};
+\end{axis}
+\end{tikzpicture}
+\caption{Met 20 rechthoeken.}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
+\centering
+\begin{tikzpicture}[font=\footnotesize,
+  declare function = { f(\x) = sin(deg(\x))^2; }
+]
+\begin{axis}[width=\textwidth, height=0.5\textwidth,
+   tick label style = {
+      /pgf/number format/use comma,
+      /pgf/number format/fixed,
+      /pgf/number format/fixed zerofill,
+      /pgf/number format/precision = 1},
+    xtick={0,pi,2*pi},
+    xticklabels={$0$,$\pi$,$2\pi$},
+    ytick={0,0.5,1.0},
+    xmax=6.5,ymax=1.1,ymin=-0.001,xmin=-0.0,
+%    enlargelimits=true,
+    axis y line=middle, axis x line=bottom,
+    clip=false,
+    domain=0:17,
+    axis on top
+    ]
+\addplot [draw=infoboxbgtitle, fill=infoboxbg, ybar interval, samples=51, domain=0:6.28] {f(x)} \closedcycle;
+\addplot[smooth, thick,domain=0:6.28,samples=40,draw=bookcolor]{f(x)};
+\end{axis}
+\end{tikzpicture}
+\caption{Met 50 rechthoeken.}
+\end{subfigure}
+\caption{Bepalen oppervlakte onder een kromme met behulp van de Riemann-linkersom.}
+\label{fig:funriemannleftrule}
+\end{figure}
+
+Het programma om de numerieke oplossing te berekenen is te vinden in listing~\ref{cod:riemann_left}. We stellen het aantal stappen (\texttt{n}) in op 1000, $a$ in op 0, $b$ in op $2\pi$ en berekenen de stapgrootte. Daarna lopen we met behulp van een \texttt{for}-statement van 0 tot $n-1$ en berekenen we de oppervlakte van de huidige rechthoek. Tevens tellen we de oppervlakten van de rechthoeken bij elkaar op. Als we $n$ steeds groter maken, benaderen we de exacte uitkomst steeds beter. De exacte uitkomst is overigens $\pi$.
+
+\booklistingfromproject[]{C}{Programma voor het berekenen van de Riemann-linkersom}{riemann_left}{c}{!ht}
+
+
+\section{Classificatie van karakters}
+C kent een aantal functies om karakters te classificeren. We gaan hierbij uit van de ASCII-code. De ASCII-code is te vinden in bijlage~\ref{cha:asciitabel}.
+
+Om deze functies gebruiken moet header-bestand \lstc{ctype.h} geladen worden. Een lijst met functies is te zien in tabel~\ref{tab:funclassfunc}. Let erop dat de parameter van de functies van het type \lstc{int} is. Karakters die als argumenten worden opgegeven, worden dus gecast naar een \lstc{int}. De reden hiervoor is dat als het karakter overeenkomt met \textsl{end-of-file} (EOF, zie hoofdstuk~\ref{cha:io})\index{EOF}, meestal gedefinieerd als $-1$ dat dan deze waarde wordt teruggegeven. Een returnwaarde ongelijk aan~0 moet gelezen worden als waar, een returnwaarde gelijk aan~0 moet gelezen worden als niet waar.
+
+\begin{table}[!ht]
+\centering
+\caption{Classificatie van karakters.}
+\label{tab:funclassfunc}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Functie & Test karakter op \\ \midrule
+\lstc{isalnum()} & Alfanumeriek (letter of cijfer)\\
+\lstc{isalpha()} & Letter\\
+\lstc{iscntrl()} & Control-teken (ASCII 0 -- 31, 127) \\
+\lstc{isdigit()} & Decimaal cijfer\\
+\lstc{isgraph()} & Grafisch\\
+\lstc{islower()} & Kleine letter\\
+\lstc{isprint()} & Afdrukbaar\\
+\lstc{ispunct()} & Leesteken\\
+\lstc{isspace()} & Whitespace (spatie, tab, newline ...)\\
+\lstc{isupper()} & Hoofdletter\\
+\lstc{isxdigit()} & Hexadecimaal cijfer\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Er zijn nog twee interessante functies: \lstc{tolower()} en \lstc{toupper}. De functie \lstc{tolower()} geeft een kleine letter terug als het argument van de functie een letter is (hoofdletter of kleine letter). De functie \lstc{toupper()} geeft een hoofdletter terug als het argument een letter is (hoofdletter of kleine letter). De functies geven het argument terug als het argument geen letter is.
+
+Dat de functies vrij eenvoudig zijn, kunnen we zien in listing~\ref{cod:funisupperdigit}. De functie \lstc{isupper()} hebben we ook echt geïmplementeerd als een functie. Voor \lstc{isdigit()} hebben we echter een \textsl{macro}\index{macro} gebruikt. Macro's worden beschreven in hoofdstuk~\ref{cha:preprocessor}.
+
+\begin{figure}[!ht]
+\begin{lstlisting}[caption=Implementatie van de functies \texttt{isupper()} en \texttt{isdigit()}.,label=cod:funisupperdigit]
+int isupper(int arg) {
+
+	if (arg == EOF) {
+		return arg;
+	}
+	return (arg >= 'A' && arg <= 'Z');
+}
+
+#define isdigit(A) ((A) == EOF ? EOF : (A) >= '0' && (A) <= '9')
+\end{lstlisting}
+\end{figure}
+
+In listing~\ref{cod:classificationcharacters} is een programma te zien dat reeks karakters van het toetsenbord inleest, afgesloten met een enter-toets, en deze karakters classificeert.
+
+\booklistingfromproject[lineskip=-1pt]{C}{Classificatie van karakters}{classificationcharacters}{c}{!ht}

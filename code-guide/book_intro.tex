@@ -1,0 +1,54 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%   VOORWOORD
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{前言}
+\label{cha:intro}
+\thispagestyle{empty}
+
+Een van de beste boeken over C is \textsl{The C Programming Language} van
+Brian Kernighan en Dennis Ritchie~\cite{kernighan1988c}.
+
+\begin{displayquote}
+The book is not an introductory programming manual; it assumes some familiarity
+with basic programming concepts like variables, assignment statements,
+loops, and functions.
+[...]
+C is not a big language, and it is not well served by a big book.
+\end{displayquote}
+
+.
+
+Dit boek is opgemaakt in \LaTeX~\cite{latexwebsite} (\LaTeX-engine = \booktexbanner).
+\LaTeX\@ leent zich uitstekend
+voor het opmaken van lopende tekst, tabellen, figuren, programmacode, vergelijkingen
+en referenties. De gebruikte \LaTeX-distributie is TexLive uit 2021~\cite{texlivewebsite}.
+Als editor is TexStudio~\cite{texstudiowebsite} gebruikt. Tekst is gezet in
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi>0
+Calibri~\cite{calibrifont}, een van de standaard fonts op een bekend besturingssysteem.
+Code is opgemaakt in Consolas~\cite{consolasfont}
+\else
+Charter~\cite{charterfont}, een van de standaard fonts in \LaTeX.
+De keuze hiervoor is dat het een prettig te lezen lettertype is, een
+\textsl{slanted} letterserie heeft en een bijbehorende wiskundige tekenset heeft.
+Code is opgemaakt in Nimbus Mono~\cite{nimbusfont}
+\fi
+met behulp van de \textsl{listings}-package~\cite{listingsctan}.
+Voor het
+tekenen van arrays, pointers en flowcharts is \textsl{TikZ/PGF} gebruikt~\cite{tikzctan}.
+Alle figuren zijn door de auteur zelf ontwikkeld, behalve de logo's van Creative
+Commons en De Haagse Hogeschool.
+Een aantal programmafragmenten is ontwikkeld door collega Harry Broeders, de overige
+fragmenten zijn door de auteur ontwikkeld.
+
+van dit boek is beschikbaar op \url{https://github.com/jesseopdenbrouw/book_c}. We doen
+een klemmend beroep aan alle lezers om fouten en omissies te melden.
+
+
+
+
+\bigskip
+\hfill \author, \ifcase\month \or januari\or februari\or maart\or april\or mei\or juni\or juli\or augustus\or september\or oktober\or november\or december\fi\ \the\year.
